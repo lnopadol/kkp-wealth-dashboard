@@ -1203,20 +1203,34 @@
   /* ------------------------------------------
      TAB 10: CASH FLOW
   ------------------------------------------ */
+
+  /* Contribution schedule: array of { fromYear, toYear, amount } */
+  var cfSchedule = [];
+  /* Per-year overrides: { 1: 500000, 5: 0, ... } */
+  var cfOverrides = {};
+
   function getCashFlowInputs() {
     var pvEl = document.getElementById("cf-portfolio-input");
     var exEl = document.getElementById("cf-expense-input");
     var infEl = document.getElementById("cf-inflation-input");
-    var conEl = document.getElementById("cf-contribution-input");
     var retEl = document.getElementById("cf-return-input");
     function parseComma(el) { return parseInt((el ? el.value : "0").replace(/[^0-9]/g, ""), 10) || 0; }
     return {
       portfolio: parseComma(pvEl),
       expense: parseComma(exEl),
       inflation: parseFloat(infEl ? infEl.value : "3") / 100,
-      contribution: parseComma(conEl),
       returnRate: parseFloat(retEl ? retEl.value : "6.5") / 100
     };
+  }
+
+  /* Resolve contribution for a given year: override > schedule > 0 */
+  function getContributionForYear(year) {
+    if (cfOverrides.hasOwnProperty(year)) return cfOverrides[year];
+    for (var i = 0; i < cfSchedule.length; i++) {
+      var s = cfSchedule[i];
+      if (year >= s.fromYear && year <= s.toYear) return s.amount;
+    }
+    return 0;
   }
 
   function computeCashFlow(p) {
@@ -1229,14 +1243,166 @@
       var beginning = balance;
       var investReturn = beginning * p.returnRate;
       var expense = p.expense * Math.pow(1 + p.inflation, y - 1);
-      var ending = beginning + investReturn + p.contribution - expense;
+      var contribution = getContributionForYear(y);
+      var ending = beginning + investReturn + contribution - expense;
       totalWithdrawals += expense;
-      totalContributions += p.contribution;
+      totalContributions += contribution;
+      var isOverridden = cfOverrides.hasOwnProperty(y);
       if (ending < 0 && depletionYear === null) depletionYear = y;
-      rows.push({ year: y, beginning: beginning, investReturn: investReturn, contribution: p.contribution, expense: expense, ending: ending });
+      rows.push({ year: y, beginning: beginning, investReturn: investReturn, contribution: contribution, expense: expense, ending: ending, isOverridden: isOverridden });
       balance = ending;
     }
     return { rows: rows, depletionYear: depletionYear, finalBalance: balance, totalWithdrawals: totalWithdrawals, totalContributions: totalContributions };
+  }
+
+  /* --- Schedule Builder --- */
+  function renderScheduleRows() {
+    var container = document.getElementById("cf-schedule-rows");
+    if (!container) return;
+    if (cfSchedule.length === 0) {
+      container.innerHTML = '<div class="cf-schedule-empty">No contribution periods defined. Click "Add Period" to start.</div>';
+    } else {
+      container.innerHTML = cfSchedule.map(function (s, idx) {
+        return '<div class="cf-schedule-row" data-idx="' + idx + '">' +
+          '<span class="cf-sched-label">Year</span>' +
+          '<input type="number" class="cf-sched-input cf-sched-input--year cf-sched-from" value="' + s.fromYear + '" min="1" max="30">' +
+          '<span class="cf-sched-dash">to</span>' +
+          '<input type="number" class="cf-sched-input cf-sched-input--year cf-sched-to" value="' + s.toYear + '" min="1" max="30">' +
+          '<span class="cf-sched-label">Amount</span>' +
+          '<input type="text" class="cf-sched-input cf-sched-input--amount cf-sched-amount" value="' + s.amount.toLocaleString("en-US") + '" inputmode="numeric">' +
+          '<span class="cf-sched-label" style="color:var(--text-muted);font-size:var(--text-xs)">THB/yr</span>' +
+          '<button class="cf-sched-remove" data-idx="' + idx + '" title="Remove this period">' +
+          '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>' +
+          '</button></div>';
+      }).join("");
+    }
+    renderScheduleSummary();
+    bindScheduleEvents();
+  }
+
+  function renderScheduleSummary() {
+    var summaryEl = document.getElementById("cf-schedule-summary");
+    if (!summaryEl) return;
+    if (cfSchedule.length === 0) {
+      summaryEl.innerHTML = 'No contributions scheduled. All 30 years default to \u0E3F0 unless overridden in the table below.';
+      return;
+    }
+    var parts = cfSchedule.map(function (s) {
+      if (s.fromYear === s.toYear) return 'Year ' + s.fromYear + ': \u0E3F' + s.amount.toLocaleString("en-US");
+      return 'Years ' + s.fromYear + '\u2013' + s.toYear + ': \u0E3F' + s.amount.toLocaleString("en-US") + '/yr';
+    });
+    var overrideCount = Object.keys(cfOverrides).length;
+    var overrideNote = overrideCount > 0 ? ' <span style="color:var(--accent)">(' + overrideCount + ' manual override' + (overrideCount > 1 ? 's' : '') + ' in table)</span>' : '';
+    summaryEl.innerHTML = parts.join(' &nbsp;|&nbsp; ') + overrideNote;
+  }
+
+  function bindScheduleEvents() {
+    var container = document.getElementById("cf-schedule-rows");
+    if (!container) return;
+
+    container.querySelectorAll(".cf-sched-from").forEach(function (el) {
+      el.addEventListener("change", function () {
+        var idx = parseInt(el.closest(".cf-schedule-row").getAttribute("data-idx"), 10);
+        cfSchedule[idx].fromYear = Math.max(1, Math.min(30, parseInt(el.value, 10) || 1));
+        el.value = cfSchedule[idx].fromYear;
+        renderScheduleSummary();
+        renderCashFlow();
+      });
+    });
+
+    container.querySelectorAll(".cf-sched-to").forEach(function (el) {
+      el.addEventListener("change", function () {
+        var idx = parseInt(el.closest(".cf-schedule-row").getAttribute("data-idx"), 10);
+        cfSchedule[idx].toYear = Math.max(1, Math.min(30, parseInt(el.value, 10) || 1));
+        el.value = cfSchedule[idx].toYear;
+        renderScheduleSummary();
+        renderCashFlow();
+      });
+    });
+
+    container.querySelectorAll(".cf-sched-amount").forEach(function (el) {
+      el.addEventListener("input", function () {
+        var idx = parseInt(el.closest(".cf-schedule-row").getAttribute("data-idx"), 10);
+        var raw = el.value.replace(/[^0-9]/g, "");
+        var num = parseInt(raw, 10) || 0;
+        cfSchedule[idx].amount = num;
+        var pos = el.selectionStart;
+        var oldLen = el.value.length;
+        el.value = num.toLocaleString("en-US");
+        var newLen = el.value.length;
+        el.setSelectionRange(pos + (newLen - oldLen), pos + (newLen - oldLen));
+        renderScheduleSummary();
+        renderCashFlow();
+      });
+      el.addEventListener("focus", function () { el.select(); });
+    });
+
+    container.querySelectorAll(".cf-sched-remove").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var idx = parseInt(btn.getAttribute("data-idx"), 10);
+        cfSchedule.splice(idx, 1);
+        renderScheduleRows();
+        renderCashFlow();
+      });
+    });
+  }
+
+  function addScheduleRow() {
+    var lastTo = cfSchedule.length > 0 ? cfSchedule[cfSchedule.length - 1].toYear : 0;
+    var from = Math.min(lastTo + 1, 30);
+    var to = Math.min(from + 4, 30);
+    cfSchedule.push({ fromYear: from, toYear: to, amount: 0 });
+    renderScheduleRows();
+  }
+
+  /* --- Inline Editing for Contribution Column --- */
+  function startInlineEdit(td, year) {
+    if (td.querySelector(".cf-inline-input")) return;
+    var current = getContributionForYear(year);
+    var input = document.createElement("input");
+    input.type = "text";
+    input.className = "cf-inline-input";
+    input.value = current.toLocaleString("en-US");
+    input.setAttribute("inputmode", "numeric");
+    td.textContent = "";
+    td.appendChild(input);
+    input.focus();
+    input.select();
+
+    function commit() {
+      var raw = input.value.replace(/[^0-9]/g, "");
+      var num = parseInt(raw, 10) || 0;
+      var scheduled = 0;
+      for (var i = 0; i < cfSchedule.length; i++) {
+        if (year >= cfSchedule[i].fromYear && year <= cfSchedule[i].toYear) { scheduled = cfSchedule[i].amount; break; }
+      }
+      if (num === scheduled) {
+        delete cfOverrides[year];
+      } else {
+        cfOverrides[year] = num;
+      }
+      renderScheduleSummary();
+      renderCashFlow();
+    }
+
+    input.addEventListener("blur", commit);
+    input.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") { e.preventDefault(); input.blur(); }
+      if (e.key === "Escape") {
+        delete cfOverrides[year]; // revert
+        renderScheduleSummary();
+        renderCashFlow();
+      }
+    });
+    input.addEventListener("input", function () {
+      var pos = input.selectionStart;
+      var oldLen = input.value.length;
+      var raw = input.value.replace(/[^0-9]/g, "");
+      var num = parseInt(raw, 10) || 0;
+      input.value = num.toLocaleString("en-US");
+      var newLen = input.value.length;
+      input.setSelectionRange(pos + (newLen - oldLen), pos + (newLen - oldLen));
+    });
   }
 
   function renderCashFlow() {
@@ -1263,10 +1429,6 @@
 
     var ctx1 = document.getElementById("chart-cf-balance").getContext("2d");
     if (charts.cfBalance) charts.cfBalance.destroy();
-
-    // Split into positive and negative segments for coloring
-    var posData = balData.map(function (v) { return v >= 0 ? v : 0; });
-    var negData = balData.map(function (v) { return v < 0 ? v : 0; });
 
     charts.cfBalance = new Chart(ctx1, {
       type: "line",
@@ -1349,20 +1511,36 @@
       }
     });
 
-    // Table
+    // Table with editable contribution cells
     var tbody = document.getElementById("cf-detail-tbody");
     tbody.innerHTML = cf.rows.map(function (r) {
       var balCls = r.ending >= 0 ? "positive" : "negative";
-      return '<tr><td class="num">' + r.year + '</td><td class="num">\u0E3F' + fmt(r.beginning, 0) + '</td><td class="num positive">+\u0E3F' + fmt(r.investReturn, 0) + '</td><td class="num accent">' + (r.contribution > 0 ? '+\u0E3F' + fmt(r.contribution, 0) : '\u0E3F0') + '</td><td class="num negative">-\u0E3F' + fmt(r.expense, 0) + '</td><td class="num ' + balCls + '">\u0E3F' + fmt(r.ending, 0) + '</td></tr>';
+      var contribDisplay = r.contribution > 0 ? '+\u0E3F' + fmt(r.contribution, 0) : '\u0E3F0';
+      var overriddenCls = r.isOverridden ? ' cf-overridden' : '';
+      return '<tr>' +
+        '<td class="num">' + r.year + '</td>' +
+        '<td class="num">\u0E3F' + fmt(r.beginning, 0) + '</td>' +
+        '<td class="num positive">+\u0E3F' + fmt(r.investReturn, 0) + '</td>' +
+        '<td class="num accent cf-contrib-cell' + overriddenCls + '" data-year="' + r.year + '">' + contribDisplay + '</td>' +
+        '<td class="num negative">-\u0E3F' + fmt(r.expense, 0) + '</td>' +
+        '<td class="num ' + balCls + '">\u0E3F' + fmt(r.ending, 0) + '</td>' +
+        '</tr>';
     }).join("");
+
+    // Bind click events on contribution cells
+    tbody.querySelectorAll(".cf-contrib-cell").forEach(function (td) {
+      td.addEventListener("click", function () {
+        var year = parseInt(td.getAttribute("data-year"), 10);
+        startInlineEdit(td, year);
+      });
+    });
   }
 
   function initCashFlowInputs() {
-    var textInputs = ["cf-portfolio-input", "cf-expense-input", "cf-contribution-input"];
+    var textInputs = ["cf-portfolio-input", "cf-expense-input"];
     var numberInputs = ["cf-inflation-input", "cf-return-input"];
 
     function updateAll() {
-      // Format text inputs with commas
       textInputs.forEach(function (id) {
         var el = document.getElementById(id);
         if (!el) return;
@@ -1392,6 +1570,25 @@
       el.addEventListener("input", function () { renderCashFlow(); });
       el.addEventListener("change", function () { renderCashFlow(); });
     });
+
+    // Add Period button
+    var addBtn = document.getElementById("cf-add-schedule-row");
+    if (addBtn) {
+      addBtn.addEventListener("click", function () { addScheduleRow(); });
+    }
+
+    // Reset Overrides button
+    var resetBtn = document.getElementById("cf-reset-overrides");
+    if (resetBtn) {
+      resetBtn.addEventListener("click", function () {
+        cfOverrides = {};
+        renderScheduleSummary();
+        renderCashFlow();
+      });
+    }
+
+    // Render initial schedule
+    renderScheduleRows();
   }
 
   /* ------------------------------------------

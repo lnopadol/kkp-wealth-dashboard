@@ -1178,6 +1178,151 @@ body {
 }
 .cf-number-input:focus { border-color: var(--accent); }
 
+/* Schedule Builder */
+.cf-schedule-header, .cf-table-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: var(--space-2);
+}
+.cf-schedule-hint, .cf-table-hint {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  margin-bottom: var(--space-4);
+}
+.cf-add-row-btn, .cf-reset-overrides-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--accent);
+  background: transparent;
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-md);
+  padding: var(--space-2) var(--space-3);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+  white-space: nowrap;
+}
+.cf-add-row-btn:hover, .cf-reset-overrides-btn:hover {
+  background: var(--accent);
+  color: #fff;
+}
+.cf-schedule-rows {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.cf-schedule-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  transition: border-color 0.15s ease;
+}
+.cf-schedule-row:hover { border-color: var(--accent); }
+.cf-schedule-row .cf-sched-label {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  white-space: nowrap;
+  min-width: 40px;
+}
+.cf-schedule-row .cf-sched-input {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums lining-nums;
+  color: var(--text-primary);
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: var(--space-2) var(--space-3);
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+.cf-schedule-row .cf-sched-input:focus { border-color: var(--accent); }
+.cf-schedule-row .cf-sched-input--year { width: 64px; text-align: center; }
+.cf-schedule-row .cf-sched-input--amount { width: 160px; }
+.cf-sched-dash {
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+}
+.cf-sched-remove {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: var(--space-1);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+.cf-sched-remove:hover {
+  color: #A84B2F;
+  background: rgba(168, 75, 47, 0.08);
+}
+.cf-schedule-summary {
+  margin-top: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background: rgba(32, 128, 141, 0.04);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+.cf-schedule-empty {
+  text-align: center;
+  padding: var(--space-5) var(--space-4);
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+}
+
+/* Editable contribution cells */
+.cf-contrib-cell {
+  cursor: pointer;
+  position: relative;
+  transition: background 0.15s ease;
+  min-width: 120px;
+}
+.cf-contrib-cell:hover {
+  background: rgba(32, 128, 141, 0.06);
+}
+.cf-contrib-cell.cf-overridden {
+  background: rgba(45, 126, 199, 0.06);
+}
+.cf-contrib-cell.cf-overridden::after {
+  content: "";
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #2d7ec7;
+}
+.cf-contrib-cell .cf-inline-input {
+  font-family: var(--font-body);
+  font-size: inherit;
+  font-weight: inherit;
+  font-variant-numeric: tabular-nums lining-nums;
+  color: var(--text-primary);
+  background: var(--surface-1);
+  border: 2px solid var(--accent);
+  border-radius: var(--radius-sm);
+  padding: var(--space-1) var(--space-2);
+  width: 130px;
+  outline: none;
+  text-align: right;
+}
+
 @media (max-width: 768px) {
   .cf-controls {
     flex-direction: column;
@@ -1185,6 +1330,15 @@ body {
     gap: var(--space-4);
   }
   .cf-number-input { width: 100%; }
+  .cf-schedule-row {
+    flex-wrap: wrap;
+  }
+  .cf-schedule-row .cf-sched-input--amount { width: 120px; }
+  .cf-schedule-header, .cf-table-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
+  }
 }
 
 /* ============================================
