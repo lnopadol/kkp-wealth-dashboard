@@ -22,8 +22,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="KKP V2">
-<title>KKP Wealth V2 Dashboard</title>
+<meta name="apple-mobile-web-app-title" content="KKP V2+">
+<title>KKP Wealth V2 Expanded Dashboard</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -36,12 +36,13 @@
   <!-- Sidebar -->
   <aside class="sidebar" role="navigation" aria-label="Main navigation">
     <div class="sidebar-logo">
-      <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-label="KKP V2 Logo">
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-label="KKP V2+ Logo">
         <rect x="2" y="2" width="28" height="28" rx="6" stroke="var(--accent)" stroke-width="2.5"/>
         <path d="M8 8v16M8 16l8-8M8 16l8 8" stroke="var(--accent)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-        <text x="22" y="22" font-size="10" font-weight="700" fill="var(--accent)" font-family="Inter, sans-serif" text-anchor="middle">2</text>
+        <text x="21" y="19" font-size="8" font-weight="700" fill="var(--accent)" font-family="Inter, sans-serif" text-anchor="middle">2</text>
+        <text x="27" y="16" font-size="7" font-weight="700" fill="var(--accent)" font-family="Inter, sans-serif" text-anchor="middle">+</text>
       </svg>
-      <span class="logo-text">KKP V2</span>
+      <span class="logo-text">KKP V2+</span>
       <button class="theme-toggle" id="theme-toggle" title="Toggle dark/light mode" aria-label="Toggle theme">
         <svg class="theme-icon-sun" width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="4" stroke="currentColor" stroke-width="1.5"/><path d="M9 1v2M9 15v2M1 9h2M15 9h2M3.3 3.3l1.4 1.4M13.3 13.3l1.4 1.4M3.3 14.7l1.4-1.4M13.3 4.7l1.4-1.4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
         <svg class="theme-icon-moon" width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M15 10.3A6.5 6.5 0 017.7 3a7 7 0 107.3 7.3z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -82,7 +83,7 @@
       </ul>
     </nav>
     <div class="sidebar-footer">
-      <div class="sidebar-meta">Growth-Oriented Portfolio</div>
+      <div class="sidebar-meta">Balanced-Growth Portfolio</div>
       <div class="sidebar-meta">Last updated: Mar 2026</div>
     </div>
   </aside>
@@ -107,52 +108,66 @@
     <section class="tab-content active" id="tab-overview">
       <div class="page-header">
         <h1>Portfolio Overview</h1>
-        <p class="page-subtitle">50 holdings across 5 sleeves &mdash; KKP Wealth V2 managed portfolio (Version 2 - Port 1)</p>
+        <p class="page-subtitle">57 holdings across 7 sleeves &mdash; KKP Wealth V2 Expanded managed portfolio (Version 2 - Port 1+)</p>
       </div>
       <div class="card concept-card">
         <div class="concept-header">
           <svg class="concept-icon" width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 2L2 7l10 5 10-5-10-5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M2 17l10 5 10-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 12l10 5 10-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           <h2 class="card-title" style="margin-bottom:0">The Idea Behind This Portfolio</h2>
         </div>
-        <p class="concept-intro">KKP Wealth V2 is a <strong>growth-oriented</strong> institutional managed portfolio designed for high-net-worth THB investors seeking higher long-term returns. It restructures the Original portfolio by halving mandate reliance (73% &rarr; 36%), tripling satellite exposure (10% &rarr; 30%), reducing fixed income (31% &rarr; 21%), and introducing a standalone PIMCO global flexible bond sleeve. The result is a portfolio targeting ~8.5&ndash;9.5% expected return with higher equity concentration and more diversified satellite themes.</p>
+        <p class="concept-intro">KKP Wealth V2 Expanded is a <strong>balanced-growth</strong> revision of the Expanded portfolio. It retains the core defensive structure (gold + cash &asymp; 41%) while modestly increasing equity exposure for better long-term growth. Key changes: mandate halved (37.6% &rarr; 18.8%), standalone PIMCO GIS sleeve, PTT local equity added (3.66%), Vista PE for vintage diversification, and expanded satellite with Europe + India themes. Expected return: ~7% p.a. with lower volatility than V2 Port 1.</p>
         <div class="concept-sleeves">
           <div class="concept-sleeve">
             <div class="concept-sleeve-dot" style="background:#20808D"></div>
             <div>
-              <div class="concept-sleeve-name">Fixed Income (11.82%)</div>
-              <div class="concept-sleeve-desc">Standalone PIMCO GIS Global Bond &mdash; active flexible bond management providing diversified fixed income exposure with ability to go anywhere in global bond markets.</div>
+              <div class="concept-sleeve-name">Fixed Income (6.18%)</div>
+              <div class="concept-sleeve-desc">Standalone PIMCO GIS Global Bond &mdash; active flexible bond management. Smaller than V2 Port 1 (11.82%) as capital shifts to equity, but provides flexible global bond exposure.</div>
             </div>
           </div>
           <div class="concept-sleeve">
             <div class="concept-sleeve-dot" style="background:#437a22"></div>
             <div>
-              <div class="concept-sleeve-name">Equity (2.18%)</div>
-              <div class="concept-sleeve-desc">Local Thai equity via VAYU1 for direct THB-denominated stock market exposure.</div>
+              <div class="concept-sleeve-name">Equity (4.80%)</div>
+              <div class="concept-sleeve-desc">VAYU1 Thai equity (1.14%) plus PTT direct stock (3.66%) &mdash; new concentrated Thai energy holding for dividend yield and local exposure.</div>
             </div>
           </div>
           <div class="concept-sleeve">
             <div class="concept-sleeve-dot" style="background:#2d7ec7"></div>
             <div>
-              <div class="concept-sleeve-name">Mandate (36.00%)</div>
-              <div class="concept-sleeve-desc">KKP Balanced Standard (31% offshore) and KKP Aggressive THB (5% onshore) &mdash; managed mandates providing diversified global exposure. Onshore switched from Moderate to Aggressive.</div>
+              <div class="concept-sleeve-name">Mandate (18.81%)</div>
+              <div class="concept-sleeve-desc">KKP Balanced Standard (16.2% offshore) and KKP Aggressive THB (2.61% onshore) &mdash; halved from Expanded's 37.6%, reducing professional management coverage.</div>
             </div>
           </div>
           <div class="concept-sleeve">
             <div class="concept-sleeve-dot" style="background:#7c5cbf"></div>
             <div>
-              <div class="concept-sleeve-name">Alternative (20.00%)</div>
-              <div class="concept-sleeve-desc">Lazard Global Infrastructure (8%), Fund of Hedge Funds (6%), and KKR K-PRIME Private Equity (6%) &mdash; no gold, focused on real assets and illiquidity premium.</div>
+              <div class="concept-sleeve-name">Alternative (13.78%)</div>
+              <div class="concept-sleeve-desc">Lazard Infrastructure (4.18%), Hedge Funds (3.13%), KKR K-PRIME (3.13%), and Vista PE VIII (3.34%) &mdash; expanded alternatives with new hedge fund and Vista PE allocations.</div>
             </div>
           </div>
           <div class="concept-sleeve">
             <div class="concept-sleeve-dot" style="background:#c49a2a"></div>
             <div>
-              <div class="concept-sleeve-name">Satellite (30.00%)</div>
-              <div class="concept-sleeve-desc">Thematic equity (10%), ACWI Passive (10%), Capital Group Active (8%), and DO Autocallable Notes (2%) &mdash; dramatically expanded from 5% to 30%.</div>
+              <div class="concept-sleeve-name">Commodities (14.63%)</div>
+              <div class="concept-sleeve-desc">Physical Gold Bullions &mdash; <strong>retained from Expanded</strong>. Provides crisis alpha, inflation hedge, and portfolio stabilization. Major distinction from V2 Port 1.</div>
+            </div>
+          </div>
+          <div class="concept-sleeve">
+            <div class="concept-sleeve-dot" style="background:#c75a8a"></div>
+            <div>
+              <div class="concept-sleeve-name">Satellite (15.66%)</div>
+              <div class="concept-sleeve-desc">Thematic equity (5.22%), ACWI Passive (5.22%), Capital Group Active (4.18%), and DO Notes (1.04%) &mdash; expanded with India and Europe themes.</div>
+            </div>
+          </div>
+          <div class="concept-sleeve">
+            <div class="concept-sleeve-dot" style="background:#9b9a97"></div>
+            <div>
+              <div class="concept-sleeve-name">Cash (26.12%)</div>
+              <div class="concept-sleeve-desc">Fixed Savings &mdash; <strong>retained from Expanded</strong>. Provides stability, liquidity for opportunistic rebalancing, and downside protection. THB-denominated fixed deposit.</div>
             </div>
           </div>
         </div>
-        <p class="concept-footer-note">V2 achieves higher expected returns through aggressive equity allocation (~43%), elimination of cash/gold buffers, and expanded satellite positions. This comes with significantly higher drawdown risk in adverse scenarios.</p>
+        <p class="concept-footer-note">V2 Expanded is an evolutionary update, not a revolution. Gold + cash buffer preserved at ~41%, equity modestly increased for growth. Less dramatic risk shift than V2 Port 1.</p>
       </div>
 
       <div class="kpi-grid" id="kpi-grid"></div>
@@ -179,7 +194,7 @@
         <p class="page-subtitle">Nested view: Sleeves &rarr; Sub-sleeves &rarr; Underlying holdings</p>
       </div>
       <div class="intro-panel">
-        <p class="intro-panel-text">This page reveals <strong>how the portfolio is structured</strong>. The 31% Offshore Mandate and 5% Onshore Mandate each contain many underlying holdings managed by KKP's mandate services. The 30% Satellite sleeve is split into Thematic Equity, Passive Global (ACWI), Active Global (Capital Group), and Structured Products. Click any sleeve to expand.</p>
+        <p class="intro-panel-text">This page reveals <strong>how the portfolio is structured</strong>. The 16.2% Offshore Mandate and 2.61% Onshore Mandate each contain many underlying holdings. The Alternative sleeve contains 4 sub-strategies: Lazard Infrastructure, Hedge Funds, KKR K-PRIME, and Vista PE. Gold (14.63%) and Cash (26.12%) are standalone sleeves. Click any sleeve to expand.</p>
       </div>
       <div id="structure-container"></div>
     </section>
@@ -191,7 +206,7 @@
         <p class="page-subtitle">Aggregate asset class breakdown across all sleeves</p>
       </div>
       <div class="intro-panel">
-        <p class="intro-panel-text">This page aggregates all 50 holdings into six core asset classes: <strong>Equity</strong>, <strong>Fixed Income</strong>, <strong>Alternative</strong>, <strong>Private Equity</strong>, <strong>Cash</strong>, and <strong>Structured Products</strong>. V2 restructures the Original portfolio's asset mix &mdash; reducing FI from 31% to 21%, tripling satellite exposure, and adding private equity.</p>
+        <p class="intro-panel-text">This page aggregates all 57 holdings into eight core asset classes: <strong>Equity</strong>, <strong>Fixed Income</strong>, <strong>Infrastructure</strong>, <strong>Hedge Fund</strong>, <strong>Private Equity</strong>, <strong>Commodities (Gold)</strong>, <strong>Cash</strong>, and <strong>Structured Products</strong>. V2 Expanded retains gold (14.63%) and cash (26.12%) from the original Expanded portfolio.</p>
       </div>
       <div class="content-grid content-grid--2col">
         <div class="card">
@@ -225,7 +240,7 @@
         <p class="page-subtitle">Estimated geographic allocation across all holdings</p>
       </div>
       <div class="intro-panel">
-        <p class="intro-panel-text">This page estimates <strong>where in the world</strong> the portfolio's money is invested. Geographic weights are approximated based on each fund's known regional focus. V2 maintains a similar geographic mix to the Original portfolio but with greater satellite diversification across India and Europe themes.</p>
+        <p class="intro-panel-text">This page estimates <strong>where in the world</strong> the portfolio's money is invested. Geographic weights are approximated based on each fund's known regional focus. Gold is classified as &ldquo;Global/Non-Geographic&rdquo;; cash savings are Thai baht (Thailand). PTT is Thailand. Satellite themes include India, Europe, and US exposures.</p>
       </div>
       <div class="content-grid content-grid--2col">
         <div class="card">
@@ -262,10 +277,10 @@
     <section class="tab-content" id="tab-themes">
       <div class="page-header">
         <h1>Investment Themes</h1>
-        <p class="page-subtitle">Thematic exposure across ~43% equity allocation and 30% satellite sleeve</p>
+        <p class="page-subtitle">Thematic exposure across ~32% equity allocation, 15.66% satellite, 14.63% gold</p>
       </div>
       <div class="intro-panel">
-        <p class="intro-panel-text">V2's themes span the entire portfolio, not just the satellite sleeve. Major themes include <strong>S&P 500/US Large Cap</strong>, <strong>Global Equity</strong>, <strong>European Equity</strong>, <strong>Infrastructure</strong>, and more. Each theme card shows approximate exposure and key holdings.</p>
+        <p class="intro-panel-text">V2 Expanded's themes span the entire portfolio. Major themes include <strong>Gold/Inflation Hedge</strong> (14.6%), <strong>Cash/Capital Preservation</strong> (26.5%), <strong>Global Equity</strong>, <strong>S&P 500/US Large Cap</strong>, <strong>Infrastructure</strong>, and <strong>Private Equity</strong>. Satellite themes add India, Europe, Technology, and MedTech.</p>
       </div>
       <div class="themes-overview" id="themes-overview"></div>
       <div id="themes-detail"></div>
@@ -290,7 +305,7 @@
         <p class="page-subtitle">Simulated portfolio performance 2016&ndash;2025 using historical asset class returns</p>
       </div>
       <div class="intro-panel">
-        <p class="intro-panel-text">This backtest simulates how the portfolio <strong>would have performed</strong> over the last 10 years using actual historical returns for each asset class proxy. V2's higher equity allocation (~55%) and reduced FI (~21% vs 31%) produce higher returns but with greater volatility than the Original portfolio. The tripled satellite allocation adds thematic risk.</p>
+        <p class="intro-panel-text">This backtest simulates how the portfolio <strong>would have performed</strong> over the last 10 years using actual historical returns for each asset class proxy. V2 Expanded's balanced allocation (~32% equity, 14.6% gold, 26.1% cash) produces moderate returns with significantly lower drawdowns than V2 Port 1. Gold provided strong returns in 2020 (+25%) and 2024 (+27.3%).</p>
       </div>
       <div class="kpi-grid" id="backtest-kpi-grid"></div>
       <div class="card">
@@ -326,7 +341,7 @@
         <p class="page-subtitle">20-year growth projection with Monte Carlo fan chart</p>
       </div>
       <div class="intro-panel">
-        <p class="intro-panel-text"><strong>Compounding</strong> is when your returns earn their own returns &mdash; the most powerful force in long-term investing. This page shows deterministic scenarios plus a Monte Carlo-style probability fan chart based on estimated portfolio volatility (~12%) and expected return (~8.5%). The higher volatility reflects V2's 43% equity and zero cash/gold.</p>
+        <p class="intro-panel-text"><strong>Compounding</strong> is when your returns earn their own returns &mdash; the most powerful force in long-term investing. This page shows deterministic scenarios plus a Monte Carlo-style probability fan chart based on estimated portfolio volatility (~9%) and expected return (~7%). The lower volatility reflects gold (14.63%) and cash (26.12%) buffers that dampen drawdowns.</p>
       </div>
       <div class="card compounding-input-card">
         <div class="compounding-controls">
@@ -411,7 +426,7 @@
           </div>
           <div class="input-group">
             <label for="cf-return-input">Expected Return (%)</label>
-            <input type="number" id="cf-return-input" value="8.5" step="0.1" min="0" max="30" class="cf-number-input">
+            <input type="number" id="cf-return-input" value="7.0" step="0.1" min="0" max="30" class="cf-number-input">
           </div>
         </div>
       </div>
@@ -473,20 +488,20 @@
     <!-- Tab: Critical Analysis -->
     <section class="tab-content" id="tab-critical">
       <div class="page-header">
-        <h1>V2 vs Original &mdash; Critical Analysis</h1>
+        <h1>V2 Expanded vs Expanded &mdash; Critical Analysis</h1>
         <p class="page-subtitle">Comprehensive comparison of risk profiles, scenario outcomes, and key concerns</p>
       </div>
 
       <!-- A. Asset Allocation Shift -->
       <div class="card">
-        <h2 class="card-title">Asset Allocation Shift: Original &rarr; V2</h2>
+        <h2 class="card-title">Asset Allocation Shift: Expanded &rarr; V2 Expanded</h2>
         <div class="table-wrapper">
           <table class="data-table" id="ca-shift-table">
             <thead>
               <tr>
                 <th>Asset Class</th>
-                <th class="num">Original %</th>
-                <th class="num">V2 %</th>
+                <th class="num">Expanded %</th>
+                <th class="num">V2 Expanded %</th>
                 <th class="num">Change</th>
               </tr>
             </thead>
@@ -517,7 +532,7 @@
 
       <!-- D. What V2 Does Well -->
       <div class="card">
-        <h2 class="card-title">What V2 Does Well</h2>
+        <h2 class="card-title">What V2 Expanded Does Well</h2>
         <div class="ca-strengths" id="ca-strengths"></div>
       </div>
 
@@ -527,13 +542,13 @@
           <svg class="concept-icon" width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 2L2 7l10 5 10-5-10-5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M2 17l10 5 10-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 12l10 5 10-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           <h2 class="card-title" style="margin-bottom:0">Verdict</h2>
         </div>
-        <p class="concept-intro">V2 is a <strong>more aggressive evolution</strong> of the Original portfolio. It shifts from a mandate-heavy structure (73%) to a balanced approach (36% mandate + 30% satellite + standalone sleeves). Equity rises from 46% to 55%, while fixed income drops from 31% to 21%. The expected return rises from ~7% to ~8.5&ndash;9.5%, but drawdown risk increases proportionally. V2 is appropriate for investors with a <strong>10+ year horizon</strong> who want more growth and are willing to accept reduced FI cushion and new illiquidity from private equity. The tripled satellite allocation adds thematic opportunity but also concentration risk.</p>
+        <p class="concept-intro">V2 Expanded is an <strong>evolutionary update</strong>, not a revolution. Gold + cash buffer is preserved at ~41%, providing crisis resilience. Equity is modestly increased (+8.3%) from 24.1% to 32.4% for better long-term growth. Key additions: PTT single-stock energy bet, Vista PE vintage diversification, Hedge Fund uncorrelated return stream, and standalone PIMCO GIS. Expected return rises from ~5&ndash;6% to ~7%, with marginally higher drawdown risk than Expanded.</p>
         <p class="concept-footer-note">This analysis is for informational purposes only. Consult with your KKP wealth advisor before making allocation changes.</p>
       </div>
     </section>
 
     <footer class="dashboard-footer">
-      <span>KKP Wealth V2 Dashboard &mdash; For informational purposes only</span>
+      <span>KKP Wealth V2 Expanded Dashboard &mdash; For informational purposes only</span>
       <a href="https://www.perplexity.ai/computer" target="_blank" rel="noopener noreferrer">Created with Perplexity Computer</a>
     </footer>
   </main>
